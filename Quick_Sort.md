@@ -1,0 +1,118 @@
+# yuday-sSortAlgo
+import java.util.Arrays;
+/**
+ * 快速排序
+ * @author yu
+ *
+ */
+public class Quick_Sort {
+	public static int getIndex(int[] arr,int pre, int last) {
+		int x = arr[pre]; //挖坑，在pre=0处挖一个坑
+		int i = pre, j = last;
+		while (i<j) {
+			while (i<j && arr[j] >= x) {
+				j--;
+			}
+			//index = j处的元素添i 处的坑 ，在j处出现坑
+			if (i < j) {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				i++;
+			}
+			while (i < j && arr[i] <= x) {
+				i++;
+			}
+			// index = i 处的元素添j 处的坑，i处挖坑
+			if (i < j) {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				j--;
+			}
+		}
+		arr[i] = x; //x 添i 处的坑
+		return i;
+	}
+	/**
+	 * 分而治之
+	 * @param arr
+	 * @param pre
+	 * @param last
+	 */
+	public static void quickSort(int[] arr,int pre, int last) {
+		if (pre < last) {
+			int i = getIndex(arr,pre,last);
+			// 递归算法
+			quickSort(arr, pre, i-1);
+			quickSort(arr, i+1, last);
+		}
+	}
+	public static void quickSort1(int[] arr,int pre, int last){
+		int i = pre, j = last;
+		if (i<j) {
+			int x = arr[i];
+			while (i < j) {
+				while (i < j && arr[j] > x ) {
+					j--;
+				}
+				if (i < j) {
+					int temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+					i++;
+				}
+				while ( i < j && arr[i] < x) {
+					i++;
+				}
+				if (i < j) {
+					int temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+					j--;
+				}
+			}
+			arr[i] = x;
+			quickSort1(arr, pre, i-1);
+			quickSort1(arr, i+1, last);
+		}
+	}
+	public static void quickSort2(int[] arr,int pre, int last){
+		int i = pre, j = last;
+		if (i<j) {
+			//取数组中间元素作为第一个分组标准
+			int temp = arr[arr.length/2];
+			arr[arr.length/2] = arr[i];
+			arr[i] = temp;
+			int x = arr[i];
+			while (i < j) {
+				while (i < j && arr[j] > x ) {
+					j--;
+				}
+				if (i < j) {
+					arr[i++] = arr[j];
+				}
+				while ( i < j && arr[i] < x) {
+					i++;
+				}
+				if (i < j) {
+					arr[j--] = arr[i];
+				}
+			}
+			arr[i] = x;
+			quickSort1(arr, pre, i-1);
+			quickSort1(arr, i+1, last);
+		}
+	}
+	public static void main(String[] args) {
+		int[] arr = {7, 6, 5, 4,3,2,1,0};
+		quickSort(arr,0,arr.length-1);
+		System.out.println(Arrays.toString(arr));
+		int[] arr1 = {7, 6, 5, 4,3,2,1,0};
+		quickSort1(arr1, 0, arr.length-1);
+		System.out.println(Arrays.toString(arr1));
+		int[] arr2 = {7, 6, 5, 4,3,2,1,0};
+		quickSort2(arr2, 0, arr.length-1);
+		System.out.println(Arrays.toString(arr2));
+	}
+}
