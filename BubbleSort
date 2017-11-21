@@ -1,0 +1,78 @@
+# yuday-sSortAlgo
+import java.util.Arrays;
+
+public class BubbleSort {
+	/**
+	 * 冒泡排序优化版
+	 * @param arr
+	 */
+	public static void bubbleSort(int[] arr) {
+		boolean sorted;
+		for (int i = 0; i < arr.length-1; i++) {
+			sorted = true; 
+			System.out.println("趟数：" + i);
+			for (int j = 0; j < arr.length-1-i; j++) {
+				if (arr[j] > arr[j+1]) {
+					int temp = arr[j];
+					arr[j] = arr[j+1];
+					arr[j+1] = temp;
+					sorted = false;
+				}
+				System.out.println(Arrays.toString(arr));
+			}
+			if (sorted) break;
+		}
+	}
+	/**
+	 * 双向冒泡排序
+	 * @param arr
+	 * @return
+	 */
+	public static int[] TwoWayBubbleSort(int[] arr){
+		if (arr == null) {
+			return null;
+		}
+		int pre = 0,last = arr.length-1;
+		while (pre <= last) {
+			preSort(arr,pre);
+			pre++;
+			if (pre >= last) break;
+			lastSort(arr,last);
+			last--;
+		}
+		return arr;
+	}
+	/**
+	 * 从前向后冒泡排序
+	 * @param arr
+	 * @param pre
+	 */
+	private static void preSort(int[] arr, int pre) {
+		for (int i = 0; i < arr.length-1; i++) {
+			if (arr[i] > arr[i+1]) {
+				int temp = arr[i];
+				arr[i] = arr[i+1];
+				arr[i+1] = temp;
+			}
+		}
+	}
+	/**
+	 * 从后向前冒泡排序
+	 * @param arr
+	 * @param last
+	 */
+	private static void lastSort(int[] arr, int last) {
+		for (int i = last; i > 0 ; i--) {
+			if (arr[i] < arr[i-1]) {
+				int temp = arr[i];
+				arr[i] = arr[i-1];
+				arr[i-1] = temp;
+			}
+		}
+	}
+	public static void main(String[] args) {
+		int[] arr = {0,1,5,2,4,3};
+//		bubbleSort(arr);
+		System.out.println(Arrays.toString(TwoWayBubbleSort(arr)));
+	}
+}
